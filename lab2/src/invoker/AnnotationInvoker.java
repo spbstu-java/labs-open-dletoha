@@ -7,7 +7,7 @@ import annotaton.Repeat;
 import core.MyClass;
 
 public class AnnotationInvoker {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         MyClass target = new MyClass();
         Class<?> cls = target.getClass();
 
@@ -28,11 +28,16 @@ public class AnnotationInvoker {
                 }
 
                 // Многократный вызов
-                for (int i = 0; i < times; i++) {
-                    Object result = method.invoke(target, params);
-                    if (method.getReturnType() != Void.TYPE) {
-                        System.out.println("Return: " + result);
+                try {
+                    for (int i = 0; i < times; i++) {
+                        Object result = method.invoke(target, params);
+                        if (method.getReturnType() != Void.TYPE) {
+                            System.out.println("Return: " + result);
+                        }
                     }
+                } catch (Exception e) {
+                    System.err.println("Error: " + e.getMessage());
+                    e.printStackTrace();
                 }
             }
         }
